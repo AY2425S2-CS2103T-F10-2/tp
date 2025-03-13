@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import seedu.address.logic.Messages;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -64,6 +63,10 @@ public class ArgumentMultimap {
     }
 
     /**
+     * THIS METHOD WAS CHANGED. I HAVE NO IDEA WHAT IT DOES OR IF IT STILL WORKS
+     * CHANGE MADE: REMOVED RELIANCE ON EXCEPTION DECLARED IN MESSAGE CLASS
+     * MESSAGE CLASS IS LONG GONE.
+     *
      * Throws a {@code ParseException} if any of the prefixes given in {@code prefixes} appeared more than
      * once among the arguments.
      */
@@ -73,7 +76,16 @@ public class ArgumentMultimap {
                 .toArray(Prefix[]::new);
 
         if (duplicatedPrefixes.length > 0) {
-            throw new ParseException(Messages.getErrorMessageForDuplicatePrefixes(duplicatedPrefixes));
+            // Initialize the error message here
+            StringBuilder errorMessage = new StringBuilder("Duplicate prefixes found: ");
+
+            // Append each duplicated prefix to the error message
+            for (Prefix prefix : duplicatedPrefixes) {
+                errorMessage.append(prefix.getPrefix()).append(" ");
+            }
+
+            // Throw ParseException with the constructed error message
+            throw new ParseException(errorMessage.toString().trim());
         }
     }
 
