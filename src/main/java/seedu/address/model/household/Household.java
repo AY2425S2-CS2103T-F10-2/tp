@@ -17,16 +17,16 @@ public class Household {
     private final Name name;
     private final Address address;
     private final Contact contact;
-    private final HouseholdId id;
+    private HouseholdId id; // Change to non-final
     private final List<Session> sessions;
     private final Set<Tag> tags;
 
     /**
-     * Creates a Household object with an auto-generated ID.
+     * Creates a Household object without an ID (ID is set later).
      * All fields except tags must be non-null.
      */
     public Household(Name name, Address address, Contact contact) {
-        this(name, address, contact, HouseholdId.generateNewId(), new HashSet<>());
+        this(name, address, contact, null, new HashSet<>());
     }
 
     /**
@@ -37,13 +37,12 @@ public class Household {
         requireNonNull(name);
         requireNonNull(address);
         requireNonNull(contact);
-        requireNonNull(id);
         requireNonNull(tags);
-        
+
         this.name = name;
         this.address = address;
         this.contact = contact;
-        this.id = id;
+        this.id = id; // Can be null initially
         this.sessions = new ArrayList<>();
         this.tags = new HashSet<>(tags); // defensive copy
     }
@@ -62,6 +61,15 @@ public class Household {
 
     public HouseholdId getId() {
         return id;
+    }
+
+    /**
+     * Sets the ID for the household, but only if it has not been set before.
+     */
+    public void setId(HouseholdId id) {
+        if (this.id == null) {
+            this.id = id;
+        }
     }
 
     public List<Session> getSessions() {
@@ -87,7 +95,7 @@ public class Household {
     public void updateSession(Session oldSession, Session newSession) {
         requireNonNull(oldSession);
         requireNonNull(newSession);
-        
+
         int index = sessions.indexOf(oldSession);
         if (index != -1) {
             sessions.set(index, newSession);
@@ -106,22 +114,21 @@ public class Household {
 
         Household otherHousehold = (Household) other;
 
-        return this.getId().equals(otherHousehold.getId()) ||
-                this.getName().toString().equalsIgnoreCase(otherHousehold.getName().toString()) ||
+        return this.getName().toString().equalsIgnoreCase(otherHousehold.getName().toString()) ||
                 this.getAddress().toString().equalsIgnoreCase(otherHousehold.getAddress().toString()) ||
                 this.getContact().toString().equals(otherHousehold.getContact().toString());
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return (name.toString() + address.toString() + contact.toString()).hashCode();
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("Household ")
-                .append(id)
+                .append(id != null ? id : "Unassigned")
                 .append(": ")
                 .append(name)
                 .append(" at ")

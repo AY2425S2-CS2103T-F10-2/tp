@@ -8,6 +8,7 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.household.Household;
+import seedu.address.model.household.HouseholdId;
 
 /**
  * Adds a household to the household book.
@@ -46,6 +47,9 @@ public class AddHouseholdCommand extends Command {
         if (model.getHouseholdBook().hasHousehold(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_HOUSEHOLD);
         }
+
+        // Generate ID only after validation
+        toAdd.setId(HouseholdId.generateNewId());
 
         model.getHouseholdBook().addHousehold(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
