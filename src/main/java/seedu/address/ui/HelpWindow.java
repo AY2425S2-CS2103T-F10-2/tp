@@ -15,7 +15,7 @@ import seedu.address.commons.core.LogsCenter;
  */
 public class HelpWindow extends UiPart<Stage> {
 
-    public static final String USERGUIDE_URL = "https://se-education.org/addressbook-level3/UserGuide.html";
+    public static final String USERGUIDE_URL = "https://ay2425s2-cs2103t-f10-2.github.io/tp/index.html";
     public static final String HELP_MESSAGE =
             "add-household: Adds a household to the household book. Parameters: n/NAME a/ADDRESS p/CONTACT\n"
                     + "Example: add-household n/Smith Family a/123 Main St p/98765432\n\n"
@@ -31,8 +31,6 @@ public class HelpWindow extends UiPart<Stage> {
                     + "find-household: Finds all households whose names, addresses, or tags contain any of the specified keywords (case-insensitive) and displays them as a list.\n"
                     + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
                     + "Example: find-household smith\n\n"
-                    + "<<REMOVE>> view-history: Shows the session history of the specified household.\n"
-                    + "Parameters: id/HOUSEHOLD_ID\n\n"
                     + "delete-household: Deletes the household identified by the household ID.\n"
                     + "Parameters: id/HOUSEHOLD_ID\n"
                     + "Example: delete-household id/H1\n\n"
