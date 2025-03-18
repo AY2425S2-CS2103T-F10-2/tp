@@ -123,6 +123,19 @@ public class HouseholdBook implements ReadOnlyHouseholdBook {
         sessions.add(session);
     }
 
+    public void removeSessionById(String sessionId) {
+        // 1) Remove from the household that has this session
+        households.stream()
+                .filter(h -> h.getSessions().stream().anyMatch(s -> s.getSessionId().equals(sessionId)))
+                .findFirst()
+                .ifPresent(h -> {
+                    h.getSessions().removeIf(s -> s.getSessionId().equals(sessionId));
+                });
+
+        // 2) Also remove from the global sessions list (if you keep one)
+        sessions.removeIf(s -> s.getSessionId().equals(sessionId));
+    }
+
     /**
      * Returns true if there exists a session that conflicts with the given session.
      * A conflict occurs when two sessions have the same date and time.
